@@ -8,9 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.Map;
 import java.util.Set;
@@ -27,11 +28,16 @@ public class PublicTopicsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_public_topics);
 
-        /*
+        /**
+         * Initializes the ListView container that will store and display available public topics.
+         */
+        publicTopicsList = (ListView)findViewById(R.id.publicTopicsList);
+
+        /**
          * Allows the main thread to process internet traffic, rather than providing the connection
          * a thread of its own.
          *
-         * This will likely be changed in the future.
+         * Separate threading for internet traffic will be implemented later.
          */
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy =
@@ -39,37 +45,57 @@ public class PublicTopicsActivity extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
         }
 
-        /*
-         * Populate the list view with a list of public topics
+        /**
+         * Obtains a list of active networks on the device.
          */
-        publicTopicsList = (ListView)findViewById(R.id.publicTopicsList);
         ConnectivityManager cm =
                 (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
+        /**
+         * Checks to see if there there are active networks on the device and if they are connected.
+         * If there are connected networks a list of public topics is generated and displayed in
+         * a ListView.
+         */
         if (networkInfo != null && networkInfo.isConnected()) {
+            /**
+             * Generates Strings needed for generating and using an SNS Controller then initializes
+             * one. Verifies the provided username and obtains its corresponding "u-[id]".
+             */
             String USER = "jeffbooth";
-            /* Not used: String PW = "jeffbooth"; */
+            /* Not currently used: String PW = "jeffbooth"; */
             String ENDPOINT = "http://tse.topicplaces.com/api/2/";
-
             SNSController publicTopicsController = new SNSController(ENDPOINT);
-            // Not used: String authKey = publicTopicsController.acquireKey(USER, PW);
+            // Not currently used: String authKey = publicTopicsController.acquireKey(USER, PW);
+            String verifiedUserID = publicTopicsController.verifyUsername(USER);
 
-            String verifiedUser = publicTopicsController.verifyUsername(USER);
-
+            /**
+             * Gets a Map of public topics then generates a String[] to store all returned
+             * keys (topic titles). Keys are used to generate an ArrayAdapter to be displayed
+             * for the user in a ListView
+             */
             Map<String, String> publicTopicMap =
-                    publicTopicsController.getPublicTopicMap(verifiedUser);
+                    publicTopicsController.getPublicTopicMap(verifiedUserID);
             TreeMap publicTopicTree = new TreeMap(publicTopicMap);
             Set publicTopicMapKeys = publicTopicTree.keySet();
-
             String[] publicTopicKeyArray =
                     (String[]) publicTopicMapKeys.toArray(new String[publicTopicMapKeys.size()]);
-
             ArrayAdapter<String> publicTopics =
                     new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, publicTopicKeyArray);
-
             publicTopicsList.setAdapter(publicTopics);
+
+            /**
+             * Generates a String[] of the public topic map's values, in "t-[id]" format, which
+             * will be passed along to an Activity for viewing a list of messages if a topic is
+             * chosen from the ListView.
+             */
+            String[] publicTopicMapValues = (String[])publicTopicTree.values().toArray();
+            publicTopicsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                }
+            });
 
         }
     }
