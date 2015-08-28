@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical|center_horizontal"
+    android:background="#B7FF9E1C"
+    tools:context=".HomeActivity">
+
+    <Button android:id="@+id/publicTopicsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFF5F00"
+        android:textColor="#ffffff"
+        android:text="Public Topics" />
+
+    <Button android:id="@+id/privateTopicsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFF5F00"
+        android:textColor="#ffffff"
+        android:text="Private Topics" />
+
+</LinearLayout>

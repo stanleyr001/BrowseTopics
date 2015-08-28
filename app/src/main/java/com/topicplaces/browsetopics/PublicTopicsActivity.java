@@ -1,0 +1,101 @@
+package com.topicplaces.browsetopics;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.StrictMode;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
+import main.java.SNSController;
+
+public class PublicTopicsActivity extends AppCompatActivity {
+
+    private ListView publicTopicsList;
+    private TextView[] publicTopicViews;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_public_topics);
+
+        /*
+         * Allows the main thread to process internet traffic, rather than providing the connection
+         * a thread of its own.
+         *
+         * This will likely be changed in the future.
+         */
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy =
+                    new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
+        /*
+         * Populate the list view with a list of public topics
+         */
+        publicTopicsList = (ListView)findViewById(R.id.publicTopicsList);
+        ConnectivityManager cm =
+                (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            String USER = "jeffbooth";
+            String PW = "jeffbooth";
+            String ENDPOINT = "http://tse.topicplaces.com/api/2/";
+
+            SNSController publicTopicsController = new SNSController(ENDPOINT);
+            String authKey = publicTopicsController.acquireKey(USER, PW);
+
+            String verifiedUser = publicTopicsController.verifyUsername(USER);
+
+            Map<String, String> publicTopicMap =
+                    publicTopicsController.getPublicTopicMap(verifiedUser);
+            TreeMap publicTopicTree = new TreeMap(publicTopicMap);
+            Set publicTopicMapKeys = publicTopicTree.keySet();
+
+            int totalPublicKeys = publicTopicMapKeys.size();
+            String[] publicTopicKeyArray =
+                    (String[]) publicTopicMapKeys.toArray(new String[totalPublicKeys]);
+
+            publicTopicViews = new TextView[totalPublicKeys];
+
+            for(int i = 0; i < (totalPublicKeys - 1); i++){
+                // publicTopicViews[i].setLayoutParams();
+                publicTopicViews[i].setText(publicTopicKeyArray[i]);
+                publicTopicsList.addHeaderView(publicTopicViews[i]);
+            }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_public_topics, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+}
