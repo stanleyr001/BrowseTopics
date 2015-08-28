@@ -1,8 +1,14 @@
 <resources>
-    <string name="app_name">Browse Topics</string>
 
-    <string name="hello_world">Hello world!</string>
+    <!-- Strings for Home Activity -->
+    <string name="app_name">Browse Topics</string>
     <string name="action_settings">Settings</string>
+    <string name="browsePublicTopicsButton">Browse Public \nTopics</string>
+    <string name="browsePrivateTopicsButton">Browse Private Topics</string>
+
+    <!-- Strings for the Public Topics activity -->
     <string name="title_activity_public_topics">Public Topics Activity</string>
+
+    <!-- Strings for the Private Topics activity -->
     <string name="title_activity_private_topics">Private Topics Activity</string>
 </resources>

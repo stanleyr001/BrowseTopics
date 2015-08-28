@@ -3,28 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="10dp"
     android:gravity="center_vertical|center_horizontal"
-    android:padding="55dp"
     android:background="#B7FF9E1C"
     tools:context=".HomeActivity">
 
-    <Button android:id="@+id/publicTopicsButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFF5F00"
-        android:textColor="#ffffff"
-        android:text="Public Topics" />
+        <Button android:id="@+id/publicTopicsButton"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_margin="10dp"
+            android:padding="16dp"
+            android:background="#FFFF5F00"
+            android:textColor="#ffffff"
+            android:text="@string/browsePublicTopicsButton"
+            android:textSize="40sp"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#000000"/>
-
-    <Button android:id="@+id/privateTopicsButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFF5F00"
-        android:textColor="#ffffff"
-        android:text="Private Topics" />
+        <Button android:id="@+id/privateTopicsButton"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_margin="10dp"
+            android:padding="16dp"
+            android:background="#FFFF5F00"
+            android:textColor="#ffffff"
+            android:text="@string/browsePrivateTopicsButton"
+            android:textSize="40sp"/>
 
 </LinearLayout>

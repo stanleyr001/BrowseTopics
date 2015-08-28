@@ -2,11 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#B7FF9E1C"
     tools:context="com.topicplaces.browsetopics.PrivateTopicsActivity">
 
     <ListView android:id="@+id/privateTopicsList"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#000000"
+        android:dividerHeight="2dp"
+        android:background="#FFFF5F00">
     </ListView>
 
 </LinearLayout>

@@ -81,14 +81,15 @@ public class PublicTopicsActivity extends AppCompatActivity {
             String[] publicTopicKeyArray =
                     (String[]) publicTopicMapKeys.toArray(new String[publicTopicMapKeys.size()]);
             ArrayAdapter<String> publicTopics =
-                    new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, publicTopicKeyArray);
+                    new ArrayAdapter<>(this,R.layout.topic_list_white_text, R.id.topicListWhiteText,
+                                                                               publicTopicKeyArray);
             publicTopicsList.setAdapter(publicTopics);
 
             /**
              * Generates a String[] of the public topic map's values, in "t-[id]" format, which
              * will be passed along to an Activity for viewing a list of messages if a topic is
              * chosen from the ListView.
-             */
+
             String[] publicTopicMapValues = (String[])publicTopicTree.values().toArray();
             publicTopicsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -96,6 +97,7 @@ public class PublicTopicsActivity extends AppCompatActivity {
 
                 }
             });
+            */
 
         }
     }
