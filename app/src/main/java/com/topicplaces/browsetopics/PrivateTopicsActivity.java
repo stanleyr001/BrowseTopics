@@ -1,16 +1,75 @@
 package com.topicplaces.browsetopics;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
+import main.java.SNSController;
 
 public class PrivateTopicsActivity extends AppCompatActivity {
+
+    private ListView privateTopicsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_topics);
+
+        /*
+         * Allows the main thread to process internet traffic, rather than providing the connection
+         * a thread of its own.
+         *
+         * This will likely be changed in the future.
+         */
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy =
+                    new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
+        /*
+         * Populate the list view with a list of public topics
+         */
+        privateTopicsList = (ListView)findViewById(R.id.privateTopicsList);
+        ConnectivityManager cm =
+                (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            String USER = "jeffbooth";
+            /* Not used: String PW = "jeffbooth"; */
+            String ENDPOINT = "http://tse.topicplaces.com/api/2/";
+
+            SNSController privateTopicsController = new SNSController(ENDPOINT);
+            // Not used: String authKey = publicTopicsController.acquireKey(USER, PW);
+
+            String verifiedUser = privateTopicsController.verifyUsername(USER);
+
+            Map<String, String> privateTopicMap =
+                    privateTopicsController.getPrivateTopicMap(verifiedUser);
+            TreeMap privateTopicTree = new TreeMap(privateTopicMap);
+            Set privateTopicMapKeys = privateTopicTree.keySet();
+
+            String[] privateTopicKeyArray =
+                    (String[]) privateTopicMapKeys.toArray(new String[privateTopicMapKeys.size()]);
+
+            ArrayAdapter<String> publicTopics =
+                    new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, privateTopicKeyArray);
+
+            privateTopicsList.setAdapter(publicTopics);
+        }
     }
 
     @Override

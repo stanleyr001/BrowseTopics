@@ -59,8 +59,8 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             if(clickedButton.getId() == R.id.privateTopicsButton) {
-                Intent publicTopicsIntent = new Intent(getBaseContext(), PrivateTopicsActivity.class);
-                startActivity(publicTopicsIntent);
+                Intent privateTopicsIntent = new Intent(getBaseContext(), PrivateTopicsActivity.class);
+                startActivity(privateTopicsIntent);
             }
         }
     }

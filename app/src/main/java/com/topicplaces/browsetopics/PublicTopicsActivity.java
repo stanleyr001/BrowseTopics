@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,7 +21,6 @@ import main.java.SNSController;
 public class PublicTopicsActivity extends AppCompatActivity {
 
     private ListView publicTopicsList;
-    private TextView[] publicTopicViews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +50,11 @@ public class PublicTopicsActivity extends AppCompatActivity {
 
         if (networkInfo != null && networkInfo.isConnected()) {
             String USER = "jeffbooth";
-            String PW = "jeffbooth";
+            /* Not used: String PW = "jeffbooth"; */
             String ENDPOINT = "http://tse.topicplaces.com/api/2/";
 
             SNSController publicTopicsController = new SNSController(ENDPOINT);
-            String authKey = publicTopicsController.acquireKey(USER, PW);
+            // Not used: String authKey = publicTopicsController.acquireKey(USER, PW);
 
             String verifiedUser = publicTopicsController.verifyUsername(USER);
 
@@ -63,17 +63,14 @@ public class PublicTopicsActivity extends AppCompatActivity {
             TreeMap publicTopicTree = new TreeMap(publicTopicMap);
             Set publicTopicMapKeys = publicTopicTree.keySet();
 
-            int totalPublicKeys = publicTopicMapKeys.size();
             String[] publicTopicKeyArray =
-                    (String[]) publicTopicMapKeys.toArray(new String[totalPublicKeys]);
+                    (String[]) publicTopicMapKeys.toArray(new String[publicTopicMapKeys.size()]);
 
-            publicTopicViews = new TextView[totalPublicKeys];
+            ArrayAdapter<String> publicTopics =
+                    new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, publicTopicKeyArray);
 
-            for(int i = 0; i < (totalPublicKeys - 1); i++){
-                // publicTopicViews[i].setLayoutParams();
-                publicTopicViews[i].setText(publicTopicKeyArray[i]);
-                publicTopicsList.addHeaderView(publicTopicViews[i]);
-            }
+            publicTopicsList.setAdapter(publicTopics);
+
         }
     }
 
