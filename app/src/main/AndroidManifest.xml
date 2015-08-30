@@ -36,6 +36,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.topicplaces.browsetopics.HomeActivity" />
         </activity>
+        <activity
+            android:name=".PublicMessagesList"
+            android:label="@string/title_activity_public_messages_list"
+            android:parentActivityName=".PublicTopicsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.topicplaces.browsetopics.PublicTopicsActivity" />
+        </activity>
     </application>
 
 </manifest>

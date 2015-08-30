@@ -1,6 +1,7 @@
 package com.topicplaces.browsetopics;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.StrictMode;
@@ -22,6 +23,8 @@ import main.java.SNSController;
 public class PublicTopicsActivity extends AppCompatActivity {
 
     private ListView publicTopicsList;
+
+    public static final String EXTRA_MESSAGE = "com.topicplaces.browsetopics.publictopicsactivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,15 +92,31 @@ public class PublicTopicsActivity extends AppCompatActivity {
              * Generates a String[] of the public topic map's values, in "t-[id]" format, which
              * will be passed along to an Activity for viewing a list of messages if a topic is
              * chosen from the ListView.
-
-            String[] publicTopicMapValues = (String[])publicTopicTree.values().toArray();
-            publicTopicsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                }
-            });
             */
+            publicTopicsList.setOnItemClickListener(
+                    new TopicsListListener(publicTopicKeyArray, publicTopicTree));
+
+        }
+    }
+
+    private class TopicsListListener implements AdapterView.OnItemClickListener {
+
+        private final String[] keys;
+        private final TreeMap publicTopicTree;
+
+        TopicsListListener(String[] keys, TreeMap publicTopicTree) {
+            super();
+            this.publicTopicTree = publicTopicTree;
+            this.keys = keys;
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            Intent topicMessages = new Intent(getBaseContext(), PublicMessagesList.class);
+            String groupID = (String)publicTopicTree.get(keys[position]);
+            topicMessages.putExtra(EXTRA_MESSAGE, groupID);
+            startActivity(topicMessages);
 
         }
     }

@@ -1,6 +1,7 @@
 package com.topicplaces.browsetopics;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.StrictMode;
@@ -8,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -20,6 +23,8 @@ import main.java.SNSController;
 public class PrivateTopicsActivity extends AppCompatActivity {
 
     private ListView privateTopicsList;
+
+    public static final String EXTRA_MESSAGE = "com.topicplaces.browsetopics.publictopicsactivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +54,9 @@ public class PrivateTopicsActivity extends AppCompatActivity {
 
         if (networkInfo != null && networkInfo.isConnected()) {
             String USER = "jeffbooth";
-            /* Not used: String PW = "jeffbooth"; */
             String ENDPOINT = "http://tse.topicplaces.com/api/2/";
 
             SNSController privateTopicsController = new SNSController(ENDPOINT);
-            // Not used: String authKey = publicTopicsController.acquireKey(USER, PW);
 
             String verifiedUser = privateTopicsController.verifyUsername(USER);
 
@@ -69,6 +72,31 @@ public class PrivateTopicsActivity extends AppCompatActivity {
                     new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, privateTopicKeyArray);
 
             privateTopicsList.setAdapter(publicTopics);
+
+            privateTopicsList.setOnItemClickListener(
+                    new TopicsListListener(privateTopicKeyArray, privateTopicTree));
+        }
+    }
+
+    private class TopicsListListener implements AdapterView.OnItemClickListener {
+
+        private final String[] keys;
+        private final TreeMap topicTree;
+
+        TopicsListListener(String[] keys, TreeMap topicTree) {
+            super();
+            this.topicTree = topicTree;
+            this.keys = keys;
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            Intent topicMessages = new Intent(getBaseContext(), PublicMessagesList.class);
+            String groupID = (String)topicTree.get(keys[position]);
+            topicMessages.putExtra(EXTRA_MESSAGE, groupID);
+            startActivity(topicMessages);
+
         }
     }
 

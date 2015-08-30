@@ -11,4 +11,8 @@
 
     <!-- Strings for the Private Topics activity -->
     <string name="title_activity_private_topics">Private Topics Activity</string>
+    <string name="title_activity_public_messages_list">Public Messages List</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_private_messages_list">Private Messages List</string>
 </resources>
