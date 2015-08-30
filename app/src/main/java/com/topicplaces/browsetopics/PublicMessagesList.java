@@ -71,7 +71,6 @@ public class PublicMessagesList extends AppCompatActivity {
             String ENDPOINT = "http://tse.topicplaces.com/api/2/";
             SNSController messageController = new SNSController(ENDPOINT);
             String authKey = messageController.acquireKey(USER, PW);
-            String verifiedUserID = messageController.verifyUsername(USER);
 
             Map<String, String> messageMap = messageController.getPublicMessageMap(TID, authKey);
             TreeMap messageTreeMap = new TreeMap(messageMap);

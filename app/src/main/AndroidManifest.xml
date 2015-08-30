@@ -44,6 +44,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.topicplaces.browsetopics.PublicTopicsActivity" />
         </activity>
+        <activity
+            android:name=".PostMessage"
+            android:label="@string/title_activity_post_message" >
+        </activity>
     </application>
 
 </manifest>
