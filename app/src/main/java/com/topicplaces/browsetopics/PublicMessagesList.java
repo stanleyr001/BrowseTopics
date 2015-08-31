@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -20,6 +22,8 @@ import main.java.SNSController;
 public class PublicMessagesList extends AppCompatActivity {
 
     private ListView publicMessagesList;
+
+    public static final String EXTRA_MESSAGE = "com.topicplaces.browsetopics.publicmessageslist";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +86,34 @@ public class PublicMessagesList extends AppCompatActivity {
                             messageKeys);
             publicMessagesList.setAdapter(publicTopics);
 
+            publicMessagesList.setOnItemClickListener(
+                    new TopicsListListener(messageKeys, messageTreeMap));
+
         }
 
 
+    }
+
+    private class TopicsListListener implements AdapterView.OnItemClickListener {
+
+        private final String[] keys;
+        private final TreeMap messageTree;
+
+        TopicsListListener(String[] keys, TreeMap messageTree) {
+            super();
+            this.messageTree = messageTree;
+            this.keys = keys;
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            Intent topicMessages = new Intent(getBaseContext(), PostMessage.class);
+            String messageID = (String)messageTree.get(keys[position]);
+            topicMessages.putExtra(EXTRA_MESSAGE, messageID);
+            startActivity(topicMessages);
+
+        }
     }
 
     @Override

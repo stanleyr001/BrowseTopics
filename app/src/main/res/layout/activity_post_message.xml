@@ -1,12 +1,112 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.topicplaces.browsetopics.PostMessage">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PostPhoto">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <!-- View for handling images associated with the message being posted -->
+    <ImageView android:id="@+id/postPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:padding="8dp"
+        android:src="@drawable/logo"
+        android:contentDescription="@string/photoDescription"
+        android:background="@drawable/photo_background" />
 
-</RelativeLayout>
+    <!-- Layout stores all TextViews, EditTexts, CheckBoxes, and Buttons to maximize the amount of space
+         photo ImageView can take on the screen -->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:background="#B7FF9E1C">
+
+        <TableRow>
+
+            <TextView android:id="@+id/postTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/postTitle"
+                android:gravity="center"
+                android:textColor="#FF000000" />
+
+            <EditText android:id="@+id/postTitleText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="text"
+                android:maxLines="1"
+                android:text="@string/defaultTopicInput"/>
+
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <TextView android:id="@+id/postComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/promptText"
+                android:gravity="center"
+                android:textColor="#FF000000" />
+
+            <EditText android:id="@+id/postCommentText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="textMultiLine"
+                android:maxLines="12"
+                android:text="@string/defaultTopicInput"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="30dp"
+            android:paddingBottom="8dp">
+            <CheckBox android:id="@+id/publicButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/publicButton"/>
+
+            <CheckBox android:id="@+id/privateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/privateButton"/>
+        </TableRow>
+
+    </TableLayout>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="#B7FF9E1C">
+
+        <Button android:id="@+id/cameraButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cameraButtonText"
+            android:gravity="center_vertical|center_horizontal"
+            android:background="#FFFF5F00"
+            android:textColor="#ffffff" />
+
+        <Button android:id="@+id/postTopicButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/postMessageButton"
+            android:gravity="center_vertical|center_horizontal"
+            android:background="#FFFF5F00"
+            android:textColor="#ffffff" />
+
+    </TableRow>
+
+</LinearLayout>

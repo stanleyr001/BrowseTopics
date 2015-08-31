@@ -16,4 +16,20 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_private_messages_list">Private Messages List</string>
     <string name="title_activity_post_message">Post Message</string>
+
+    <string name="photoDescription">Photo to be posted with the topic</string>
+
+    <!--  Strings for Post Message activity -->
+    <string name="postTitle">"Message Title:"</string>
+    <string name="promptText">Comments:</string>
+    <string name="defaultTopicInput">Enter here</string>
+    <string name="cameraButtonText">Take Photo</string>
+    <string name="postMessageButton">Post Message</string>
+    <string name="publicButton">Public Message</string>
+    <string name="privateButton">Private Message</string>
+
+    <!-- Strings for Toasts -->
+    <string name="choosePublicOrPrivate">Error: Select Public or Private message.</string>
+    <string name="cameraFailure">Camera failure. Try again.</string>
+    <string name="postFailure">No internet connection. Try again</string>
 </resources>
