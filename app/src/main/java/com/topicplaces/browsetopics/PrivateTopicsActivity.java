@@ -7,11 +7,13 @@ import android.net.NetworkInfo;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.Map;
@@ -23,6 +25,7 @@ import main.java.SNSController;
 public class PrivateTopicsActivity extends AppCompatActivity {
 
     private ListView privateTopicsList;
+    private Button optionsButton, postTopicButton;
 
     public static final String EXTRA_MESSAGE = "com.topicplaces.browsetopics.publictopicsactivity";
 
@@ -47,6 +50,10 @@ public class PrivateTopicsActivity extends AppCompatActivity {
          * Populate the list view with a list of public topics
          */
         privateTopicsList = (ListView)findViewById(R.id.privateTopicsList);
+
+        postTopicButton = (Button)findViewById(R.id.postTopicButton);
+
+
         ConnectivityManager cm =
                 (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -69,7 +76,8 @@ public class PrivateTopicsActivity extends AppCompatActivity {
                     (String[]) privateTopicMapKeys.toArray(new String[privateTopicMapKeys.size()]);
 
             ArrayAdapter<String> publicTopics =
-                    new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, privateTopicKeyArray);
+                    new ArrayAdapter<>(this, R.layout.topic_list_white_text,
+                             R.id.topicListWhiteText, privateTopicKeyArray);
 
             privateTopicsList.setAdapter(publicTopics);
 

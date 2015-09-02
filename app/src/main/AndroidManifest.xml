@@ -48,6 +48,7 @@
             android:name=".PostMessage"
             android:label="@string/title_activity_post_message" >
         </activity>
+
     </application>
 
 </manifest>
