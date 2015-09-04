@@ -10,6 +10,9 @@ import android.widget.Button;
 
 public class HomeActivity extends AppCompatActivity {
 
+    public static boolean isPrivate;
+    public static final String EXTRA_MESSAGE = "com.topicplaces.browsertopics.homeactivity";
+
     private Button publicTopicsButton, privateTopicsButton;
 
     @Override
@@ -55,11 +58,14 @@ public class HomeActivity extends AppCompatActivity {
 
             if(clickedButton.getId() == R.id.publicTopicsButton) {
                 Intent publicTopicsIntent = new Intent(getBaseContext(), PublicTopicsActivity.class);
+                publicTopicsIntent.putExtra(EXTRA_MESSAGE, isPrivate);
                 startActivity(publicTopicsIntent);
             }
 
             if(clickedButton.getId() == R.id.privateTopicsButton) {
                 Intent privateTopicsIntent = new Intent(getBaseContext(), PrivateTopicsActivity.class);
+                isPrivate = true;
+                privateTopicsIntent.putExtra(EXTRA_MESSAGE, isPrivate);
                 startActivity(privateTopicsIntent);
             }
         }

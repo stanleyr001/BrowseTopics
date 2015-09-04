@@ -48,7 +48,10 @@
             android:name=".PostMessage"
             android:label="@string/title_activity_post_message" >
         </activity>
-
+        <activity
+            android:name=".ViewMessage"
+            android:label="@string/title_activity_view_message" >
+        </activity>
     </application>
 
 </manifest>

@@ -2,14 +2,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#B7FF9E1C"
     tools:context="com.topicplaces.browsetopics.PublicMessagesList">
 
-    <ListView android:id="@+id/publicMessagesList"
+    <ListView android:id="@+id/messagesList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:divider="#000000"
         android:dividerHeight="2dp"
-        android:background="#FFFF5F00">
-    </ListView>
+        android:background="#B7FF9E1C"/>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button android:id="@+id/topicOptionsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:text="@string/topicOptionsButton"
+            android:background="#FFFF5F00"
+            android:textColor="#ffffff"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#000000"/>
+
+        <Button android:id="@+id/postNewMessageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:text="@string/newMessageButton"
+            android:background="#FFFF5F00"
+            android:textColor="#ffffff"/>
+
+    </TableRow>
 
 </LinearLayout>

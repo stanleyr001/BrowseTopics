@@ -8,6 +8,7 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,12 +28,17 @@ public class PrivateTopicsActivity extends AppCompatActivity {
     private ListView privateTopicsList;
     private Button optionsButton, postTopicButton;
 
+    public static boolean isPrivate;
     public static final String EXTRA_MESSAGE = "com.topicplaces.browsetopics.publictopicsactivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_topics);
+
+        Intent privacy = getIntent();
+        isPrivate = privacy.getExtras().getBoolean(HomeActivity.EXTRA_MESSAGE);
+        Log.v("isPrivate", "" + isPrivate);
 
         /*
          * Allows the main thread to process internet traffic, rather than providing the connection
@@ -103,6 +109,7 @@ public class PrivateTopicsActivity extends AppCompatActivity {
             Intent topicMessages = new Intent(getBaseContext(), PublicMessagesList.class);
             String groupID = (String)topicTree.get(keys[position]);
             topicMessages.putExtra(EXTRA_MESSAGE, groupID);
+            topicMessages.putExtra(EXTRA_MESSAGE, isPrivate);
             startActivity(topicMessages);
 
         }

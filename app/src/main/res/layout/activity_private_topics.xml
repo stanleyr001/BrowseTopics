@@ -23,16 +23,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="1dp"
+            android:layout_margin="2dp"
             android:text="@string/topicOptionsButton"
             android:background="#FFFF5F00"
             android:textColor="#ffffff" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#000000"/>
 
         <Button android:id="@+id/newTopicButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="1dp"
+            android:layout_margin="2dp"
             android:text="@string/newTopicButton"
             android:background="#FFFF5F00"
             android:textColor="#ffffff"/>

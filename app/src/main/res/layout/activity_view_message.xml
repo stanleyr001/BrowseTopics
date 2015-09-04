@@ -1,0 +1,98 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#B7FF9E1C"
+    tools:context="com.topicplaces.browsetopics.ViewMessage">
+
+    <ImageView android:id="@+id/postPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:padding="8dp"
+        android:src="@drawable/logo"
+        android:contentDescription="@string/photoDescription"
+        android:background="@drawable/photo_background" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="8dp">
+        <TableRow android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="Title: "
+                style="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="#000000" />
+
+            <TextView android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:text="Incoming Title"
+                style="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="#000000"
+                android:maxLines="2" />
+
+        </TableRow>
+
+        <TableRow android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="Comments: "
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="#000000" />
+
+            <TextView android:id="@+id/commentsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:text="Incoming Comments"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="#000000"
+                android:maxLines="8" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <TableRow android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button android:id="@+id/editMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:text="Edit Message"
+            android:background="#FFFF5F00"
+            android:textColor="#ffffff"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#000000"/>
+
+        <Button android:id="@+id/messageOptionsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:text="Message Options"
+            android:background="#FFFF5F00"
+            android:textColor="#ffffff"/>
+
+    </TableRow>
+
+</LinearLayout>

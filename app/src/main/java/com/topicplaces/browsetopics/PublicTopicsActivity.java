@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,8 @@ public class PublicTopicsActivity extends AppCompatActivity {
 
     private ListView publicTopicsList;
 
+    private boolean isPrivate;
+
     public static final String EXTRA_MESSAGE = "com.topicplaces.browsetopics.publictopicsactivity";
 
     @Override
@@ -35,6 +38,10 @@ public class PublicTopicsActivity extends AppCompatActivity {
          * Initializes the ListView container that will store and display available public topics.
          */
         publicTopicsList = (ListView)findViewById(R.id.publicTopicsList);
+
+        Intent privacy = getIntent();
+        isPrivate = privacy.getExtras().getBoolean(HomeActivity.EXTRA_MESSAGE);
+        Log.v("isPrivate", "" + isPrivate);
 
         /**
          * Allows the main thread to process internet traffic, rather than providing the connection

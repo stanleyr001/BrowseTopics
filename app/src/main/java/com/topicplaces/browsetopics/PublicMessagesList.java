@@ -7,11 +7,13 @@ import android.net.NetworkInfo;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.Map;
@@ -22,7 +24,10 @@ import main.java.SNSController;
 public class PublicMessagesList extends AppCompatActivity {
 
     private ListView publicMessagesList;
+    private Button newMessageButton;
+    private String TID;
 
+    public static boolean isPrivate;
     public static final String EXTRA_MESSAGE = "com.topicplaces.browsetopics.publicmessageslist";
 
     @Override
@@ -33,13 +38,16 @@ public class PublicMessagesList extends AppCompatActivity {
         /**
          * Initialize the ListView to store message titles in
          */
-        publicMessagesList = (ListView)findViewById(R.id.publicMessagesList);
+        publicMessagesList = (ListView)findViewById(R.id.messagesList);
+        newMessageButton = (Button)findViewById(R.id.postNewMessageButton);
 
         /**
          * Grabs the TID of the selected topic in PublicTopicsActivity
          */
         Intent publicTopicsIntent = getIntent();
-        String TID = publicTopicsIntent.getStringExtra(PublicTopicsActivity.EXTRA_MESSAGE);
+        TID = publicTopicsIntent.getStringExtra(PublicTopicsActivity.EXTRA_MESSAGE);
+        isPrivate = publicTopicsIntent.getExtras().getBoolean(PublicTopicsActivity.EXTRA_MESSAGE);
+        Log.v("isPrivate", "" + isPrivate);
 
         /**
          * Allows the main thread to process internet traffic, rather than providing the connection
@@ -89,8 +97,9 @@ public class PublicMessagesList extends AppCompatActivity {
             publicMessagesList.setOnItemClickListener(
                     new TopicsListListener(messageKeys, messageTreeMap));
 
-        }
+            newMessageButton.setOnClickListener(new NewMessageListener());
 
+        }
 
     }
 
@@ -108,9 +117,31 @@ public class PublicMessagesList extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            Intent topicMessages = new Intent(getBaseContext(), PostMessage.class);
+            Intent viewMessage = new Intent(getBaseContext(), ViewMessage.class);
             String messageID = (String)messageTree.get(keys[position]);
-            topicMessages.putExtra(EXTRA_MESSAGE, messageID);
+            viewMessage.putExtra(EXTRA_MESSAGE, messageID);
+            startActivity(viewMessage);
+
+        }
+    }
+
+    private class NewMessageListener implements View.OnClickListener {
+
+        /**
+        private final String[] keys;
+        private final TreeMap messageTree;
+
+        NewMessageListener(String[] keys, TreeMap messageTree) {
+            super();
+            this.messageTree = messageTree;
+            this.keys = keys;
+        }
+        */
+        @Override
+        public void onClick(View v) {
+
+            Intent topicMessages = new Intent(getBaseContext(), PostMessage.class);
+            topicMessages.putExtra(EXTRA_MESSAGE, TID);
             startActivity(topicMessages);
 
         }
