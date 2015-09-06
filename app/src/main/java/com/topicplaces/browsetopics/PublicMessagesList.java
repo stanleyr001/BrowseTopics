@@ -45,7 +45,7 @@ public class PublicMessagesList extends AppCompatActivity {
          * Grabs the TID of the selected topic in PublicTopicsActivity
          */
         Intent publicTopicsIntent = getIntent();
-        TID = publicTopicsIntent.getStringExtra(PublicTopicsActivity.EXTRA_MESSAGE);
+        TID = publicTopicsIntent.getStringExtra(PrivateTopicsActivity.EXTRA_MESSAGE);
         isPrivate = publicTopicsIntent.getExtras().getBoolean(PublicTopicsActivity.EXTRA_MESSAGE);
         Log.v("isPrivate", "" + isPrivate);
 
@@ -84,20 +84,38 @@ public class PublicMessagesList extends AppCompatActivity {
             SNSController messageController = new SNSController(ENDPOINT);
             String authKey = messageController.acquireKey(USER, PW);
 
-            Map<String, String> messageMap = messageController.getPublicMessageMap(TID, authKey);
-            TreeMap messageTreeMap = new TreeMap(messageMap);
-            String[] messageKeys
-                    = (String[])messageTreeMap.keySet().toArray(new String[messageTreeMap.size()]);
+            if (!isPrivate) {
+                Map<String, String> messageMap = messageController.getPublicMessageMap(TID, authKey);
+                TreeMap messageTreeMap = new TreeMap(messageMap);
+                String[] messageKeys
+                        = (String[]) messageTreeMap.keySet().toArray(new String[messageTreeMap.size()]);
 
-            ArrayAdapter<String> publicTopics =
-                    new ArrayAdapter<>(this,R.layout.topic_list_white_text, R.id.topicListWhiteText,
-                            messageKeys);
-            publicMessagesList.setAdapter(publicTopics);
+                ArrayAdapter<String> publicTopics =
+                        new ArrayAdapter<>(this, R.layout.topic_list_white_text, R.id.topicListWhiteText,
+                                messageKeys);
+                publicMessagesList.setAdapter(publicTopics);
 
-            publicMessagesList.setOnItemClickListener(
-                    new TopicsListListener(messageKeys, messageTreeMap));
+                publicMessagesList.setOnItemClickListener(
+                        new TopicsListListener(messageKeys, messageTreeMap));
 
-            newMessageButton.setOnClickListener(new NewMessageListener());
+                newMessageButton.setOnClickListener(new NewMessageListener());
+            }else {
+
+                Map<String, String> messageMap = messageController.getPrivateMessageMap(TID, authKey);
+                TreeMap messageTreeMap = new TreeMap(messageMap);
+                String[] messageKeys
+                        = (String[]) messageTreeMap.keySet().toArray(new String[messageTreeMap.size()]);
+
+                ArrayAdapter<String> privateTopics =
+                        new ArrayAdapter<>(this, R.layout.topic_list_white_text, R.id.topicListWhiteText,
+                                messageKeys);
+                publicMessagesList.setAdapter(privateTopics);
+
+                publicMessagesList.setOnItemClickListener(
+                        new TopicsListListener(messageKeys, messageTreeMap));
+
+                newMessageButton.setOnClickListener(new NewMessageListener());
+            }
 
         }
 

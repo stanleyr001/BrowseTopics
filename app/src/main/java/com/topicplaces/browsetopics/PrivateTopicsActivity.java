@@ -28,8 +28,8 @@ public class PrivateTopicsActivity extends AppCompatActivity {
     private ListView privateTopicsList;
     private Button optionsButton, postTopicButton;
 
-    public static boolean isPrivate;
-    public static final String EXTRA_MESSAGE = "com.topicplaces.browsetopics.publictopicsactivity";
+    public  boolean isPrivate;
+    public static final String EXTRA_MESSAGE = "com.topicplaces.browsetopics.privatetopicsactivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
