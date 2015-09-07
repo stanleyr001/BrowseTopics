@@ -6,6 +6,11 @@
     android:background="#B7FF9E1C"
     tools:context="com.topicplaces.browsetopics.PublicMessagesList">
 
+    <TextView android:id="@+id/checkTID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Base.TextAppearance.AppCompat.Medium"/>
+
     <ListView android:id="@+id/messagesList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

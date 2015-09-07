@@ -26,7 +26,7 @@ import main.java.SNSController;
 public class PrivateTopicsActivity extends AppCompatActivity {
 
     /*
-     * Fields UI Views
+     * Fields for UI Views
      */
     private ListView privateTopicsList;
     private Button optionsButton, postTopicButton;

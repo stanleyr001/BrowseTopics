@@ -25,7 +25,7 @@ import main.java.SNSController;
 public class PublicTopicsActivity extends AppCompatActivity {
 
     /*
-     * Fields UI Views
+     * Fields for UI Views
      */
     private ListView publicTopicsList;
     private Button optionsButton, postTopicButton;
@@ -142,6 +142,7 @@ public class PublicTopicsActivity extends AppCompatActivity {
 
             Intent topicMessages = new Intent(getBaseContext(), PublicMessagesList.class);
             String TID = (String)topicTree.get(keys[position]);
+            Log.d("TID", TID);
             topicMessages.putExtra(EXTRA_MESSAGE, TID);
             topicMessages.putExtra(EXTRA_MESSAGE, isPrivate);
             startActivity(topicMessages);

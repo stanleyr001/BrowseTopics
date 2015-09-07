@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,10 +24,16 @@ import main.java.SNSController;
 
 public class PublicMessagesList extends AppCompatActivity {
 
+    /*
+     * Fields for UI Views
+     */
     private ListView publicMessagesList;
     private Button newMessageButton;
-    private String TID;
 
+    /*
+     * Fields for passing extra values through Intents to other activities or apps
+     */
+    public static String TID;
     public static boolean isPrivate;
     public static final String EXTRA_MESSAGE = "com.topicplaces.browsetopics.publicmessageslist";
 
@@ -35,21 +42,24 @@ public class PublicMessagesList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_public_messages_list);
 
-        /**
-         * Initialize the ListView to store message titles in
+        /*
+         * Initialize the ListView to store message titles in and the New Message Button
          */
         publicMessagesList = (ListView)findViewById(R.id.messagesList);
         newMessageButton = (Button)findViewById(R.id.postNewMessageButton);
 
-        /**
-         * Grabs the TID of the selected topic in PublicTopicsActivity
+        /*
+         * Grabs the TID of the selected topic in PublicTopicsActivity and the status of isPrivate
          */
-        Intent publicTopicsIntent = getIntent();
-        TID = publicTopicsIntent.getStringExtra(PrivateTopicsActivity.EXTRA_MESSAGE);
-        isPrivate = publicTopicsIntent.getExtras().getBoolean(PublicTopicsActivity.EXTRA_MESSAGE);
-        Log.v("isPrivate", "" + isPrivate);
+        Intent topicsIntent = getIntent();
+        TID = topicsIntent.getStringExtra(PublicTopicsActivity.EXTRA_MESSAGE);
+        TextView checkTID = (TextView)findViewById(R.id.checkTID);
+        checkTID.setText(TID);
+        // Log.d("TID", TID);
+        isPrivate = topicsIntent.getExtras().getBoolean(PublicTopicsActivity.EXTRA_MESSAGE);
+        // Log.v("isPrivate", "" + isPrivate);
 
-        /**
+        /*
          * Allows the main thread to process internet traffic, rather than providing the connection
          * a thread of its own.
          *
@@ -61,20 +71,20 @@ public class PublicMessagesList extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
         }
 
-        /**
+        /*
          * Obtains a list of active networks on the device.
          */
         ConnectivityManager cm =
                 (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
-        /**
+        /*
          * Checks to see if there there are active networks on the device and if they are connected.
          * If there are connected networks a list of public topics is generated and displayed in
          * a ListView.
          */
         if (networkInfo != null && networkInfo.isConnected()) {
-            /**
+            /*
              * Generates Strings needed for generating and using an SNS Controller then initializes
              * one. Verifies the provided username and obtains its corresponding "u-[id]".
              */
