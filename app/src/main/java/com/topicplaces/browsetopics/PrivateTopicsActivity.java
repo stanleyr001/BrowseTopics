@@ -25,9 +25,15 @@ import main.java.SNSController;
 
 public class PrivateTopicsActivity extends AppCompatActivity {
 
+    /*
+     * Fields UI Views
+     */
     private ListView privateTopicsList;
     private Button optionsButton, postTopicButton;
 
+    /*
+     * Fields for passing extra values through Intents to other activities or apps.
+     */
     public  boolean isPrivate;
     public static final String EXTRA_MESSAGE = "com.topicplaces.browsetopics.privatetopicsactivity";
 
@@ -36,6 +42,18 @@ public class PrivateTopicsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_topics);
 
+        /*
+         * Initializes the ListView container that will store and display available private topics.
+         * Initializes Options and New Topic buttons.
+         */
+        privateTopicsList = (ListView)findViewById(R.id.privateTopicsList);
+        postTopicButton = (Button)findViewById(R.id.postTopicButton);
+        optionsButton = (Button)findViewById(R.id.topicOptionsButton);
+
+        /*
+         * Grabs the Home Activity Intent and stores a boolean representing privacy status,
+         * false for Public and true for Private.
+         */
         Intent privacy = getIntent();
         isPrivate = privacy.getExtras().getBoolean(HomeActivity.EXTRA_MESSAGE);
         Log.v("isPrivate", "" + isPrivate);
@@ -44,7 +62,7 @@ public class PrivateTopicsActivity extends AppCompatActivity {
          * Allows the main thread to process internet traffic, rather than providing the connection
          * a thread of its own.
          *
-         * This will likely be changed in the future.
+         * Separate threading for internet traffic will be implemented later.
          */
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy =
@@ -53,40 +71,43 @@ public class PrivateTopicsActivity extends AppCompatActivity {
         }
 
         /*
-         * Populate the list view with a list of public topics
+         * Obtains a list of active networks on the device.
          */
-        privateTopicsList = (ListView)findViewById(R.id.privateTopicsList);
-
-        postTopicButton = (Button)findViewById(R.id.postTopicButton);
-
-
         ConnectivityManager cm =
                 (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
+        /*
+         * Checks to see if there there are active networks on the device and if they are connected.
+         * If there are connected networks a list of private topics is generated and displayed in
+         * a ListView.
+         */
         if (networkInfo != null && networkInfo.isConnected()) {
+            /*
+             * Generates Strings needed for generating and using an SNS Controller then initializes
+             * one. Verifies the provided username and obtains its corresponding "u-[id]".
+             */
             String USER = "jeffbooth";
             String ENDPOINT = "http://tse.topicplaces.com/api/2/";
-
             SNSController privateTopicsController = new SNSController(ENDPOINT);
-
             String verifiedUser = privateTopicsController.verifyUsername(USER);
 
+            /*
+             * Gets a Map of public topics then generates a String[] to store all returned
+             * keys (topic titles). Keys are used to generate an ArrayAdapter to be displayed
+             * for the user in a ListView.
+             *
+             * ArrayAdapater is set to the ListView and an onItemClick listener is attached.
+             */
             Map<String, String> privateTopicMap =
                     privateTopicsController.getPrivateTopicMap(verifiedUser);
             TreeMap privateTopicTree = new TreeMap(privateTopicMap);
-            Set privateTopicMapKeys = privateTopicTree.keySet();
-
             String[] privateTopicKeyArray =
-                    (String[]) privateTopicMapKeys.toArray(new String[privateTopicMapKeys.size()]);
-
+                    (String[]) privateTopicTree.keySet().toArray(new String[privateTopicTree.size()]);
             ArrayAdapter<String> publicTopics =
                     new ArrayAdapter<>(this, R.layout.topic_list_white_text,
                              R.id.topicListWhiteText, privateTopicKeyArray);
-
             privateTopicsList.setAdapter(publicTopics);
-
             privateTopicsList.setOnItemClickListener(
                     new TopicsListListener(privateTopicKeyArray, privateTopicTree));
         }

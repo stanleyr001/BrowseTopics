@@ -28,6 +28,27 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    private class TopicsButtonListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            Button clickedButton = (Button)v;
+
+            if(clickedButton.getId() == R.id.publicTopicsButton) {
+                Intent publicTopicsIntent = new Intent(getBaseContext(), PublicTopicsActivity.class);
+                publicTopicsIntent.putExtra(EXTRA_MESSAGE, isPrivate);
+                startActivity(publicTopicsIntent);
+            }
+
+            if(clickedButton.getId() == R.id.privateTopicsButton) {
+                Intent privateTopicsIntent = new Intent(getBaseContext(), PrivateTopicsActivity.class);
+                isPrivate = true;
+                privateTopicsIntent.putExtra(EXTRA_MESSAGE, isPrivate);
+                startActivity(privateTopicsIntent);
+            }
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -48,27 +69,6 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private class TopicsButtonListener implements View.OnClickListener{
-
-        @Override
-        public void onClick(View v) {
-            Button clickedButton = (Button)v;
-
-            if(clickedButton.getId() == R.id.publicTopicsButton) {
-                Intent publicTopicsIntent = new Intent(getBaseContext(), PublicTopicsActivity.class);
-                publicTopicsIntent.putExtra(EXTRA_MESSAGE, isPrivate);
-                startActivity(publicTopicsIntent);
-            }
-
-            if(clickedButton.getId() == R.id.privateTopicsButton) {
-                Intent privateTopicsIntent = new Intent(getBaseContext(), PrivateTopicsActivity.class);
-                isPrivate = true;
-                privateTopicsIntent.putExtra(EXTRA_MESSAGE, isPrivate);
-                startActivity(privateTopicsIntent);
-            }
-        }
     }
 
 }
