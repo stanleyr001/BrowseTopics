@@ -112,23 +112,38 @@ public class PublicTopicsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Accepts a String[] of topic map keys and a tree map then passes the t-[id] of the selected
+     * topic to the Public Messages List activity
+     */
     private class TopicsListListener implements AdapterView.OnItemClickListener {
 
+        /*
+         * Fields for the keys and topic tree map
+         */
         private final String[] keys;
-        private final TreeMap publicTopicTree;
+        private final TreeMap topicTree;
 
-        TopicsListListener(String[] keys, TreeMap publicTopicTree) {
+        /*
+         * Constructor accepts key array and topic tree map and assigns them to respective fields
+         */
+        TopicsListListener(String[] keys, TreeMap topicTree) {
             super();
-            this.publicTopicTree = publicTopicTree;
+            this.topicTree = topicTree;
             this.keys = keys;
         }
 
+        /*
+         * Passes an Intent to the Public Messages List activity containing the t-[id] of the
+         * selected topic and an isPrivate value of false (Public)
+         */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             Intent topicMessages = new Intent(getBaseContext(), PublicMessagesList.class);
-            String groupID = (String)publicTopicTree.get(keys[position]);
-            topicMessages.putExtra(EXTRA_MESSAGE, groupID);
+            String TID = (String)topicTree.get(keys[position]);
+            topicMessages.putExtra(EXTRA_MESSAGE, TID);
+            topicMessages.putExtra(EXTRA_MESSAGE, isPrivate);
             startActivity(topicMessages);
 
         }
